@@ -1,0 +1,41 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+<div id="app">
+  <button v-on:click="aumentar">Aumentar</button>
+  <button v-on:click="contador2++">Aumentar</button>
+  <button v-on:click="diminuir">Diminuir</button>
+  <p>Contador: {{ contador }} || {{ contador2 }}</p>
+  <p>Resultado {{ resultado }}</p>
+</div>
+
+<script>
+  new Vue({
+    el: "#app",
+    data: {
+      contador: 0,
+      contador2: 0,
+    },
+    computed: {
+      // Propriedades computadas de forma sincrona e obrigatoriamente precisa retornar uma valor
+      resultado() {
+        return this.contador >= 5 ? "Maior ou igual a 5" : "Menor que 5";
+      },
+    },
+    watch: {
+      // Vai estar monitorando a propriedade e nao precisa necessariamente retornar algo e via ser monitoriada de forma assincrona
+      contador(novo, old) {
+        setTimeout(() => {
+          this.contador = 0;
+        }, 2000);
+      },
+    },
+    methods: {
+      aumentar() {
+        this.contador++;
+      },
+      diminuir() {
+        this.contador--;
+      },
+    },
+  });
+</script>

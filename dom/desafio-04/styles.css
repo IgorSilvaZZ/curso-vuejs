@@ -1,0 +1,48 @@
+#efeito {
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+}
+
+.destaque {
+  background-color: red;
+  width: 200px !important;
+}
+
+.encolher {
+  background-color: gray;
+  width: 50px !important;
+}
+
+.associe1 {
+  background: #8e44ad;
+}
+
+.associe2 {
+  width: 100px;
+  height: 100px;
+}
+
+.quadrado {
+  width: 100px;
+  height: 100px;
+}
+
+.direita {
+  float: right;
+}
+
+.perigo {
+  background: red;
+}
+
+.barra-progresso {
+  height: 30px;
+  width: 500px;
+
+  border: 1px solid black;
+}
+
+.progresso {
+  background: red;
+}

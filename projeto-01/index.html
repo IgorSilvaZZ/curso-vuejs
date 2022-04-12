@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Matador de Monstro</title>
+  </head>
+  <body>
+    <style>
+      #app {
+        margin: 0;
+        padding: 0;
+
+        font-family: "Poppins", sans-serif;
+      }
+
+      .players {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+
+        width: 100%;
+        height: 200px;
+
+        margin: 15px 0px;
+
+        -webkit-box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.75);
+      }
+
+      .player {
+        display: flex;
+        flex-direction: column;
+
+        text-align: center;
+
+        width: 40%;
+        height: 70%;
+      }
+
+      .player h2 {
+        font-weight: 200;
+      }
+
+      .status-player {
+        height: 20%;
+
+        border-radius: 10px;
+
+        background: #27ae60;
+
+        border: 1px solid #bdc3c7;
+      }
+
+      .container-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-family: "Montserrat", sans-serif;
+
+        width: 100%;
+        height: 100px;
+
+        -webkit-box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.75);
+      }
+
+      .container-buttons button {
+        padding: 12px;
+
+        width: 200px;
+
+        font-weight: 600;
+
+        border: none;
+        border-radius: 10px;
+
+        margin: 0px 10px;
+
+        cursor: pointer;
+
+        text-transform: uppercase;
+      }
+
+      .finish-buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .container-buttons p {
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .container-attacks {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        font-family: "Montserrat", sans-serif;
+
+        width: 100%;
+
+        margin: 10px 0px;
+
+        -webkit-box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.75);
+      }
+
+      .player-attack {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 95%;
+        height: 30px;
+
+        background: #00cec9;
+        border-radius: 5px;
+
+        color: white;
+
+        font-size: 15px;
+        font-weight: 600;
+
+        text-transform: uppercase;
+
+        margin: 8px 0px;
+      }
+    </style>
+
+    <div id="app">
+      <div class="players">
+        <div class="player">
+          <h2>Jogador</h2>
+          <div
+            :style="{width: `${statusPlayer}%`, backgroundColor: statusPlayer > 20 ? '#27ae60' : '#c0392b'}"
+            class="status-player"
+          ></div>
+          <span>{{ statusPlayer }}%</span>
+        </div>
+        <div class="player">
+          <h2>Monstro</h2>
+          <div
+            :style="{width: `${statusMonster}%`, backgroundColor: statusMonster > 20 ? '#27ae60' : '#c0392b'}"
+            class="status-player"
+          ></div>
+          <span>{{ statusMonster }}%</span>
+        </div>
+      </div>
+      <div class="container-buttons">
+        <span v-show="!isFinish">
+          <button
+            style="background: #c0392b; color: white"
+            @click="attack('default')"
+          >
+            Ataque
+          </button>
+          <button style="background: #d35400" @click="attack('special')">
+            Ataque Especial
+          </button>
+          <button @click="heal" style="background: #27ae60; color: white">
+            Curar
+          </button>
+          <button @click="lose" style="background: #95a5a6">Desistir</button>
+        </span>
+        <span v-show="isFinish" class="finish-buttons">
+          <p v-if="statusPlayer === 0" style="color: #c0392b">
+            Você perdeu! :(
+          </p>
+          <p v-if="statusMonster === 0" style="color: #27ae60">
+            Você Ganhou! :)
+          </p>
+          <button @click="restart" style="background: #2980b9; color: white">
+            Iniciar novo Jogo
+          </button>
+        </span>
+      </div>
+      <div v-if="attacks.length > 0" class="container-attacks">
+        <div
+          :style="{backgroundColor: attack.cor}"
+          class="player-attack"
+          v-for="attack in attacks"
+        >
+          {{ attack.mensagem }}
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
