@@ -1,0 +1,33 @@
+<meta charset="UTF-8" />
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+<div id="app">
+  <comp></comp>
+  <comp></comp>
+  <comp></comp>
+</div>
+
+<script>
+  Vue.component("comp", {
+    template: "<h1>Componente</h1>",
+    data: function () {
+      return {
+        aula: "Aula: Montando instancia Vue",
+        modulo: "Módulo Instancia Vue",
+      };
+    },
+    methods: {
+      alterarAula() {
+        this.aula += "#";
+      },
+      alterarModulo() {
+        this.modulo += "#";
+      },
+    },
+  });
+
+  const vm = new Vue({
+    el: "#app",
+  });
+</script>
