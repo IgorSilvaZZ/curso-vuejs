@@ -25,8 +25,8 @@ export default {
 };
 </script>
 
-<style>
-.contador span {
+<style scoped>
+span {
   height: 30px;
 
   border-bottom: 1px solid #ccc;
@@ -34,7 +34,7 @@ export default {
   padding: 5px 30px;
 }
 
-.contador button {
+button {
   height: 30px;
   width: 30px;
 
